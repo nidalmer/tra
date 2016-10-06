@@ -1,0 +1,195 @@
+{% extends 'movies/base.html' %}
+
+{% block mainshit %}
+
+  <div class="featured-movie">
+
+    <img class="cover" src="https://image.tmdb.org/t/p/w500{{ movie.backdrop }}" alt="" class="cover" />
+
+      <div class="bottom-bar">
+
+        <div class="title-container">
+          <span class="fa fa-play-circle"></span>
+          <b>{{ movie.title }}</b> Trailers
+        </div>
+
+        <div class="right">
+
+          <div class="stars">
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star-half-o"></span>
+            <span class="fa fa-star-o"></span>
+          </div>
+
+          <div class="share">
+            <icon class="fa fa-share-square"></icon> Share
+          </div>
+  
+        </div> <!-- right -->
+
+      </div> <!-- bottom bar -->
+
+    </div> <!-- featured -->
+
+    <div class="movie-list">
+
+      <div id="container"> 
+      	
+        <div id="contents">
+         	<img src="https://image.tmdb.org/t/p/w500{{ movie.poster }}" id='poster'/>
+    	  </div>
+
+        <div id="gradient"></div>
+        <div id="gradient2"></div>
+
+        <div id="movie-info" class="container">
+
+          <div class="first row">
+
+          	<div class="genre col-md-4">
+          	  {% for genre in movie.genre.all %}
+        				{% if forloop.last %}
+        				  {{ genre.genre }}
+                {% else %}
+        				  {{ genre.genre }}, 
+        			  {% endif %}
+        			{% endfor %}
+          	</div>
+
+          	<div class="release col-md-5">
+          	  <i class="fa fa-calendar" aria-hidden="true"></i> {{ movie.release }}</h4>
+          	</div>
+
+      			<div class="runtime col-md-3">
+      			  <i class="fa fa-clock-o" aria-hidden="true"></i> {{ movie.runtime }} min
+      			</div>
+
+			    </div><!-- first row -->
+
+      		<div class="second row">
+
+      			<div class="director col-md-6">
+      			  <i class="fa fa-video-camera" aria-hidden="true"></i>
+      			  <ul>
+      				  {% for person in movie.director.all %}
+      				    <li>{{ person.name }}</li>
+      				  {% endfor %}
+      			  </ul>
+      			</div>
+
+      			<div class="actors col-md-6">
+      			  <i class="fa fa-users" aria-hidden="true"></i>
+      			  <ul>
+      				  {% for person in movie.actors.all %}
+      				    <li>{{ person.name }}</li>
+      				  {% endfor %}
+      			  </ul>
+      			</div>
+
+      		</div><!-- second row -->
+
+      		<div class="third row">
+
+      			<div class="plot col-md-12">
+      				<p>{{ movie.description}}</p>
+      			</div>
+
+      		</div><!-- third row -->
+
+          {% if movie.was_released %}
+
+          {% else %}
+
+            <div class="row">
+
+              <div class="timer col-md-2"></div>
+
+          		<div class="timer col-md-10">
+          			<div id="timer"></div>
+          		</div>
+
+            </div><!-- row -->
+
+          {% endif %}
+
+        </div><!-- movie-info -->
+
+      </div><!-- container -->
+
+      <div class="trailers">
+
+        <div class="yt-general container">
+
+          <div class="row">
+
+            <div class="yt-cargador col-md-12">
+
+              <div id="yt-video" class="yt-video">
+                {% for trailer in movie.trailer_set.all %}
+                  {% if forloop.first %}
+                    <iframe id="id-frame" width="420" height="315" src="https://www.youtube.com/embed//{{ trailer.link }}?rel=0" frameborder="0" allowfullscreen></iframe>
+                  {% endif %}
+                {% endfor %}  
+              </div>
+
+            </div><!-- yt-cargador -->
+
+          </div><!-- row -->
+
+          <div class="row">
+
+            <div class="yt-miniaturas">
+              {% for trailer in movie.trailer_set.all %}
+                <div class="col-md-4">
+                  <a href="javascript:cargarVideo('id-frame', '{{ trailer.link }}');"><img src="http://img.youtube.com/vi/{{ trailer.link }}/1.jpg" />
+                    <div>{{ trailer.name }}</div>
+                  </a>
+                </div>
+              {% endfor %}
+            </div><!-- yt-min -->
+
+          </div><!-- row -->
+
+        </div><!-- yt-gen -->
+
+      </div><!-- trailers -->
+
+    </div> <!-- movie list -->
+
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript">
+      function updateTimer() {
+      future  = Date.parse("{{ movie.release|date:"F d, Y" }} 12:00:00");
+      now     = new Date();
+      diff    = future - now;
+
+      days  = Math.floor( diff / (1000*60*60*24) );
+      hours = Math.floor( diff / (1000*60*60) );
+      mins  = Math.floor( diff / (1000*60) );
+      secs  = Math.floor( diff / 1000 );
+
+      d = days;
+      h = hours - days  * 24;
+      m = mins  - hours * 60;
+      s = secs  - mins  * 60;
+
+      document.getElementById("timer")
+        .innerHTML =
+          '<div>' + d + '<span>days</span></div>' +
+          '<div>' + h + '<span>hours</span></div>' +
+          '<div>' + m + '<span>minutes</span></div>' +
+          '<div>' + s + '<span>seconds</span></div>' ;
+    }
+    setInterval('updateTimer()', 1000 );
+    </script>
+
+{% endblock %}
+
+
+
+	

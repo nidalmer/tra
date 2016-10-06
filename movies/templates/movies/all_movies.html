@@ -1,0 +1,19 @@
+
+
+  {% for movie in all_movies %}
+    <li class="poster_holder wrapper">
+      <figure class="snip1384">
+        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster }}" class="poster" />
+        <figcaption>
+          <h3 class="movie_title">{{ movie.title }}</h3>
+          <p>{{ movie.release.year }}</p>
+          <p class="release_date">{{ movie.release }}</p>
+          <i class="fa fa-play" aria-hidden="true"></i>
+        </figcaption>
+        <a href="{% url 'detail' movie.id %}"></a>
+      </figure>
+      {% if movie.was_released %}
+        <div class="ribbon-wrapper-green"><div class="ribbon-green">IN THEATERS</div></div>
+      {% endif %}
+    </li>
+  {% endfor %}

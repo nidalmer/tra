@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    {% load staticfiles %}
+      <link rel="stylesheet" type="text/css" href="{% static 'movies/css/reset.css' %}"/>
+      <link rel="stylesheet" type="text/css" href="{% static 'movies/css/style.css' %}"/>
+      <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+      <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.11/css/perfect-scrollbar.css'>
+      <link rel='stylesheet prefetch' href='https://rawgit.com/kenwheeler/slick/master/slick/slick.css'>
+      <link rel='stylesheet prefetch' href='https://rawgit.com/kenwheeler/slick/master/slick/slick-theme.css'>
+      <script src="{% static 'movies/js/prefixfree.min.js' %}"></script>
+  </head>
+
+  <body>
+    <div id="all">
+      <div class="window-margin">
+        <div class="window">
+
+          <aside class="sidebar">
+
+            <div class="top-bar">
+              <p class="logo"><a href="{% url 'index' %}" class="logo-link">TRAILERZ</a></p>
+            </div>
+
+            <div class="search-box">
+              <form method="GET" action="" id="searchform">
+                <input class="searchfield" id="searchbox" name="q" type="text" value="{{ request.GET.q }}" placeholder="Search..."/>
+              </form>
+              <p class="fa fa-search"></p>
+            </div>
+
+            <menu class="menu">
+              <ul class="no-bullets">
+                <li><a href="{% url 'index' %}">Newest</a></li>
+                <li><a href="{% url 'popular' %}">Most Popular</a></li>
+                <li><a href="#">Most Hyped</a></li>
+              </ul>
+              <div class="separator"></div>
+              <p class="menu-name">Movie trailers</p>
+              <ul>
+                {% for genre in all_genres %}
+                  <li><a href="{% url 'genre' genre.id %}">{{ genre.genre }}</a></li>
+                {% endfor %}
+              </ul>
+              <div class="separator"></div> 
+            </menu>
+
+          </aside>
+
+
+          <div class="main" role="main">
+
+            <div class="top-bar">
+              <div class="profile-box">
+                <div class="login-btn ">
+                  <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                  <i class="fa fa-chevron-down arrowuser" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <ul class="top-menu">
+                <li class="menu-icon trigger-sidebar-toggle">
+                  <div class="line"></div>
+                  <div class="line"></div>
+                  <div class="line"></div>
+                </li>
+                <li class="active"><a href="#">Movies</a></li>
+                <li><a href="#">TV</a></li>
+              </ul>
+            </div> <!-- top bar -->
+
+              {% block mainshit %}
+              {% endblock %}
+
+          </div> <!-- main -->
+        </div> <!-- window -->
+      </div> <!-- window margin -->
+    </div>
+    
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.11/js/min/perfect-scrollbar.jquery.min.js'></script>
+    <script src='https://rawgit.com/kenwheeler/slick/master/slick/slick.js'></script>
+    <script src="{% static 'movies/js/index.js' %}"></script>
+    <script type="text/javascript">
+      $("input").keypress(function(event) {
+        if (event.which == 13) {
+          event.preventDefault();
+          $("#searchform").submit();
+        }
+      });
+    </script>
+    
+    {% block script %}
+    {% endblock %}
+   
+  </body>
+</html>
+

@@ -1,0 +1,67 @@
+{% extends 'movies/base.html' %}
+
+{% block mainshit %}
+
+  <div class="featured-movie">
+
+    <img class="cover" src="https://image.tmdb.org/t/p/w500{{ our_pick.backdrop }}" alt="" class="cover" />
+    <p class="corner-title">Our pick</p>
+
+    <div class="bottom-bar">
+
+      <div class="title-container">
+        <span class="fa fa-play-circle"></span>
+        <b>{{ our_pick.title }}</b> Trailer #1
+      </div>
+
+      <div class="right">
+
+        <div class="stars">
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star-half-o"></span>
+          <span class="fa fa-star-o"></span>
+        </div>
+
+        <div class="share">
+          <icon class="fa fa-share-square"></icon> Share
+        </div>
+
+      </div> <!-- right -->
+    </div> <!-- bottom bar -->
+  </div> <!-- featured -->
+
+  <div class="movie-list">
+
+    <div class="title-bar">
+      <div class="left">
+      </div> <!-- left -->
+
+      <div class="right" id="right">
+        <button class="sort" data-sort="movie_title">Title</button>
+        <button class="sort" data-sort="release_date">Release Date</button>
+        <input class="search" placeholder="Search" type="search" />
+      </div> <!-- right -->
+
+    </div> <!-- title-bar -->
+
+    <ul class="list">
+      {% for movie in all_movies %}
+        <li class="poster_holder">
+          <figure class="snip1384">
+            <img src="https://image.tmdb.org/t/p/w500{{ movie.poster }}" class="poster" />
+            <figcaption>
+              <h3>{{ movie.title }}</h3>
+              <p>{{ movie.release.year }}</p>
+              <i class="fa fa-play" aria-hidden="true"></i>
+            </figcaption>
+            <a href="{% url 'detail' movie.id %}"></a>
+          </figure>
+        </li>
+      {% endfor %}
+    </ul>
+
+  </div> <!-- movie list -->
+
+{% endblock %}
