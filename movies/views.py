@@ -1,10 +1,9 @@
 from django.views import generic
 from django.db.models import Max, Q
-from el_pagination.views import AjaxListView
 from .models import Movie, Genre, Person
 
 
-class IndexView(AjaxListView):
+class IndexView(generic.ListView):
     template_name = 'movies/index.html'
     page_template = 'movies/all_movies.html'
     context_object_name = 'all_movies'
@@ -31,7 +30,7 @@ class IndexView(AjaxListView):
             return Movie.objects.annotate(Max("trailer__date")).order_by('-trailer__date__max')
 
 
-class PopularView(AjaxListView):
+class PopularView(generic.ListView):
     template_name = 'movies/index.html'
     page_template = 'movies/all_movies.html'
     context_object_name = 'all_movies'
